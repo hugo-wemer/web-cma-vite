@@ -63,7 +63,7 @@ export function CreateCommentForm({
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger className="flex cursor-pointer items-center gap-1 rounded-lg bg-primary px-4 font-semibold text-card hover:opacity-70">
+      <DialogTrigger className="flex h-8 cursor-pointer items-center gap-1 rounded-md bg-primary px-4 font-semibold text-card text-sm hover:opacity-70">
         <Plus />
         <span>Adicionar comentário ao ativo</span>
       </DialogTrigger>

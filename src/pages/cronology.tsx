@@ -1,6 +1,7 @@
 import { Navigate, useParams } from "react-router-dom"
 import { Comments } from "@/components/comments"
 import { CreateCommentForm } from "@/components/create-comment-form"
+import { CronologyHeader } from "@/components/cronology-header"
 
 type CronologyParams = {
   companySlug: string
@@ -17,6 +18,7 @@ export function Cronology() {
 
   return (
     <div className="">
+      <CronologyHeader />
       <div className="mx-12 my-4 flex gap-8">
         <div className="w-full space-y-6">
           <div className="flex justify-between">
