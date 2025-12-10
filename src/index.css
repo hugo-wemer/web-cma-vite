@@ -196,4 +196,15 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+
+  input[type="datetime-local"]::-webkit-clear-button,
+  input[type="datetime-local"]::-webkit-inner-spin-button {
+    display: none;
+  }
+
+  
 }

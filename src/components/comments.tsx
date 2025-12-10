@@ -1,31 +1,19 @@
-import { useQuery } from "@tanstack/react-query"
 import { format, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Loader2 } from "lucide-react"
-import type { GetCommentsApiResponse } from "@/pages/cronology"
+import type { CronologyRequestParams } from "@/http/types/get-comments-response"
+import { useComments } from "@/http/use-comment"
 import { Badge } from "./ui/badge"
-
-type CommentsProps = {
-  companySlug: string
-  installationSlug: string
-  assetSlug: string
-}
 
 export function Comments({
   companySlug,
   installationSlug,
   assetSlug,
-}: CommentsProps) {
-  const { data: commentsPerDay, isLoading } = useQuery({
-    queryKey: ["get-cronology", companySlug, installationSlug, assetSlug],
-    queryFn: async () => {
-      const response = await fetch(
-        `http://192.168.3.130:3333/comments/${companySlug}/${installationSlug}/${assetSlug}`
-      )
-      const result: GetCommentsApiResponse = await response.json()
-      return result.comments
-    },
-    enabled: !!companySlug && !!installationSlug && !!assetSlug,
+}: CronologyRequestParams) {
+  const { data: commentsPerDay, isLoading } = useComments({
+    companySlug,
+    installationSlug,
+    assetSlug,
   })
 
   return (

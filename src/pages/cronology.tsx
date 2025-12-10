@@ -1,25 +1,11 @@
-import { Plus } from "lucide-react"
 import { Navigate, useParams } from "react-router-dom"
 import { Comments } from "@/components/comments"
-import { Button } from "@/components/ui/button"
+import { CreateCommentForm } from "@/components/create-comment-form"
 
 type CronologyParams = {
   companySlug: string
   installationSlug: string
   assetSlug: string
-}
-
-export type GetCommentsApiResponse = {
-  comments: {
-    commentedAt: string
-    comments: {
-      id: string
-      assetOwnerId: string
-      author: string
-      comment: string
-      commentedAt: string
-    }[]
-  }[]
 }
 
 export function Cronology() {
@@ -35,9 +21,11 @@ export function Cronology() {
         <div className="w-full space-y-6">
           <div className="flex justify-between">
             <h1 className="font-semibold text-3xl">Cronologia</h1>
-            <Button className="cursor-pointer" size="sm">
-              <Plus /> Adicionar comentário ao ativo
-            </Button>
+            <CreateCommentForm
+              assetSlug={assetSlug}
+              companySlug={companySlug}
+              installationSlug={installationSlug}
+            />
           </div>
           <Comments
             assetSlug={assetSlug}
