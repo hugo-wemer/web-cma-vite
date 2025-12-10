@@ -3,10 +3,16 @@
   "extends": [
     "ultracite/core"
   ],
+  "linter": {
+    "rules": {
+      "nursery": {
+        "noLeakedRender": "off"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "semicolons": "asNeeded"
     },
   }
-  
 }
