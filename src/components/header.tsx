@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { House, Loader } from "lucide-react"
+import { House, Loader2 } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { Legend } from "./legend"
 import {
@@ -46,7 +46,7 @@ export function Header({ companySlug }: { companySlug: string }) {
             <SelectValue placeholder="Selecione uma empresa" />
           </SelectTrigger>
           <SelectContent>
-            {isLoading && <Loader className="animate-spin" />}
+            {isLoading && <Loader2 className="animate-spin" />}
             {companies?.map((company) => (
               <SelectItem key={company.id} value={company.companySlug}>
                 {company.companyName}

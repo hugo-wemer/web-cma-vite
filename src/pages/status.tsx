@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { Loader } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { Navigate, useParams } from "react-router-dom"
 import { AssetStatus } from "@/components/asset-status"
 import { Header } from "@/components/header"
@@ -56,7 +56,7 @@ export function Status() {
     <div>
       {isLoading ? (
         <div className="flex min-h-screen flex-col items-center justify-center text-muted-foreground">
-          <Loader className="animate-spin" />
+          <Loader2 className="animate-spin" />
           <p>Carregando status...</p>
         </div>
       ) : (
