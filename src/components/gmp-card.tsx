@@ -1,148 +1,187 @@
-'use client'
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
+"use client"
+import {
+  Bar,
+  ComposedChart,
+  LabelList,
+  Line,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts"
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 import type { GetGmpOnlineValuesResponse } from "@/http/types/get-gmp-online-values-request"
-import { Bar, ComposedChart, LabelList, Line, XAxis } from "recharts"
 
-export function GmpCard({h2Data, moistureData}:GetGmpOnlineValuesResponse){
+export function GmpCard({ h2Data, moistureData }: GetGmpOnlineValuesResponse) {
   const chartConfig = {
-      current: {
-        label: "Atual",
-        color: "#1ca31a80"
-      },
-      max: {
-        label: "Máxima",
-        color: "#1ca31a"
-      },
-      alarm: {
-        label: "Alarme",
-        color: "#e30918"
-      },
-      average: {
-        label: "Média",
-        color: "#0000FF"
-      }
-    } satisfies ChartConfig
+    current: {
+      label: "Atual",
+      color: "#1ca31a80",
+    },
+    max: {
+      label: "Máxima",
+      color: "#1ca31a",
+    },
+    alarm: {
+      label: "Alarme",
+      color: "#e30918",
+    },
+    average: {
+      label: "Média",
+      color: "#0000FF",
+    },
+  } satisfies ChartConfig
+
   return (
-    <div className="flex justify-evenly border p-4 rounded-lg bg-card/30 shadow-shape">
+    <div className="flex justify-evenly gap-8 rounded-lg border bg-card/30 p-4 shadow-shape">
       <div className="flex flex-col items-center">
-        <ChartContainer config={chartConfig} className="w-32 h-64" >
-          <ComposedChart
-            data={h2Data}
-          >
+        <ChartContainer className="h-64 w-32" config={chartConfig}>
+          <ComposedChart data={h2Data} margin={{ right: 34, left: 0 }}>
             <XAxis
+              axisLine={false}
               dataKey="variable"
+              hide
+              tickFormatter={(value) => value.slice(0, 3)}
               tickLine={false}
               tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-              hide
             />
+            <YAxis domain={[0, 50]} hide type="number" />
             <ChartTooltip
-              cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
+              cursor={false}
             />
             <Bar dataKey="current" fill="var(--color-current)" radius={4}>
               <LabelList
-                  dataKey="current"
-                  position="inside"
-                  offset={8}
-                  className="fill-[#FFFFFF]"
-                  fontSize={12}
-                />
+                className="fill-[#FFFFFF]"
+                dataKey="current"
+                fontSize={12}
+                offset={8}
+                position="inside"
+              />
             </Bar>
             <Bar dataKey="max" fill="var(--color-max)" radius={4}>
               <LabelList
-                dataKey="max"
-                position="inside"
-                offset={8}
                 className="fill-[#FFFFFF]"
+                dataKey="max"
                 fontSize={12}
+                offset={8}
+                position="inside"
               />
             </Bar>
-            <Line 
-            type="monotone" dataKey="alarm" stroke="var(--color-alarm)">
+            <Line dataKey="alarm" stroke="var(--color-alarm)" type="monotone">
               <LabelList
-                dataKey="alarm"
-                position="right"
-                offset={8}
-                fontSize={12}
                 className="fill-[#ef4444]"
-              />
-            </Line>
-            <Line 
-            type="monotone" dataKey="average" stroke="var(--color-average)">
-              <LabelList
-                dataKey="average"
-                position="right"
-                offset={8}
+                dataKey="alarm"
                 fontSize={12}
-                className="fill-[#075985]"
+                offset={8}
+                position="right"
               />
             </Line>
-          </ComposedChart>      
+            <Line
+              dataKey="average"
+              stroke="var(--color-average)"
+              type="monotone"
+            >
+              <LabelList
+                className="fill-[#0d90d6]"
+                dataKey="average"
+                fontSize={12}
+                fontWeight={800}
+                offset={8}
+                position="left"
+              />
+            </Line>
+            <ReferenceLine
+              label={{
+                value: "Alarme",
+                position: "top",
+                className: "text-md font-bold",
+                offset: 8,
+              }}
+              stroke="var(--destructive)"
+              strokeDasharray="6 6"
+              y={h2Data[0]?.alarm?.toString()}
+            />
+          </ComposedChart>
         </ChartContainer>
         <span className="text-center">Concentração de H2 (ppm)</span>
       </div>
       <div className="flex flex-col items-center">
-        <ChartContainer config={chartConfig} className="w-32 h-64" >
-          <ComposedChart
-            data={moistureData}
-          >
+        <ChartContainer className="h-64 w-32" config={chartConfig}>
+          <ComposedChart data={moistureData} margin={{ right: 34, left: 0 }}>
             <XAxis
+              axisLine={false}
               dataKey="variable"
+              hide
+              tickFormatter={(value) => value.slice(0, 3)}
               tickLine={false}
               tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-              hide
             />
+            <YAxis domain={[0, 50]} hide type="number" />
             <ChartTooltip
-              cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
+              cursor={false}
             />
             <Bar dataKey="current" fill="var(--color-current)" radius={4}>
               <LabelList
-                  dataKey="current"
-                  position="inside"
-                  offset={8}
-                  className="fill-[#FFFFFF]"
-                  fontSize={12}
-                />
+                className="fill-[#FFFFFF]"
+                dataKey="current"
+                fontSize={12}
+                offset={8}
+                position="inside"
+              />
             </Bar>
             <Bar dataKey="max" fill="var(--color-max)" radius={4}>
               <LabelList
-                dataKey="max"
-                position="inside"
-                offset={8}
                 className="fill-[#FFFFFF]"
+                dataKey="max"
                 fontSize={12}
+                offset={8}
+                position="inside"
               />
             </Bar>
-            <Line 
-            type="monotone" dataKey="alarm" stroke="var(--color-alarm)">
+            <Line dataKey="alarm" stroke="var(--color-alarm)" type="monotone">
               <LabelList
-                dataKey="alarm"
-                position="right"
-                offset={8}
-                fontSize={12}
                 className="fill-[#ef4444]"
-              />
-            </Line>
-            <Line 
-            type="monotone" dataKey="average" stroke="var(--color-average)">
-              <LabelList
-                dataKey="average"
-                position="right"
-                offset={8}
+                dataKey="alarm"
                 fontSize={12}
-                className="fill-[#075985]"
+                offset={52}
+                position="right"
               />
             </Line>
-          </ComposedChart>      
+            <Line
+              dataKey="average"
+              stroke="var(--color-average)"
+              type="monotone"
+            >
+              <LabelList
+                className="fill-[#0d90d6]"
+                dataKey="average"
+                fontSize={12}
+                fontWeight={800}
+                offset={8}
+                position="left"
+              />
+            </Line>
+            <ReferenceLine
+              label={{
+                value: "Alarme",
+                position: "top",
+                className: "text-md font-bold",
+                offset: 8,
+              }}
+              stroke="var(--destructive)"
+              strokeDasharray="6 6"
+              y={moistureData[0]?.alarm?.toString()}
+            />
+          </ComposedChart>
         </ChartContainer>
         <span className="text-center">Saturação relativa (%)</span>
       </div>
-
     </div>
   )
 }

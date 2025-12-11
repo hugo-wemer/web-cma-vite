@@ -1,19 +1,26 @@
 import { Navigate, useParams } from "react-router-dom"
 import { OnlineValuesContainer } from "@/components/online-values-container"
-import type { OnlineValuesRequestParams } from "@/http/types/get-online-values-response"
+
+type OnlineValuesParams = {
+  companySlug: string
+  installationSlug: string
+  assetSlug: string
+}
 
 export function OnlineValues() {
   const { companySlug, installationSlug, assetSlug } =
-    useParams<OnlineValuesRequestParams>()
+    useParams<OnlineValuesParams>()
   if (!(companySlug && installationSlug && assetSlug)) {
     return <Navigate to="/" />
   }
 
   return (
-    <OnlineValuesContainer
-      assetSlug={assetSlug}
-      companySlug={companySlug}
-      installationSlug={installationSlug}
-    />
+    <div className="m-4">
+      <OnlineValuesContainer
+        assetSlug={assetSlug}
+        companySlug={companySlug}
+        installationSlug={installationSlug}
+      />
+    </div>
   )
 }

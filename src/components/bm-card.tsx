@@ -1,46 +1,60 @@
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "./ui/chart";
-import { Separator } from "./ui/separator";
-import type { GetBmOnlineValuesResponse } from "@/http/types/get-bm-online-values-request";
-
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+} from "recharts"
+import type { GetBmOnlineValuesResponse } from "@/http/types/get-bm-online-values-request"
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./ui/chart"
+import { Separator } from "./ui/separator"
 
 const chartConfig = {
   currentValue: {
-    label: 'Atual',
-    color: '#1ca31a8b',
+    label: "Atual",
+    color: "#1ca31a8b",
   },
   initialValue: {
-    label: 'Inicial',
-    color: '#03095b6a',
+    label: "Inicial",
+    color: "#03095b6a",
   },
   alarmValue: {
-    label: 'Alarme',
-    color: '#e30918',
+    label: "Alarme",
+    color: "#e30918",
   },
 } satisfies ChartConfig
 
-export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: GetBmOnlineValuesResponse){
-  return(
-    <div className="border p-4 rounded-lg bg-card/30 shadow-shape">
-      <div className="grid grid-cols-3">
+export function BmCard({
+  capacitanceData,
+  tangentDeltaData,
+  leakageCurrentData,
+}: GetBmOnlineValuesResponse) {
+  return (
+    <div className="rounded-lg border bg-card/30 p-4 shadow-shape">
+      <div className="flex flex-wrap items-center justify-evenly">
         <div className="grid justify-center">
           <span className="text-center">Capacitância</span>
           <ChartContainer
-            config={chartConfig}
             className="mx-auto aspect-square h-[350px]"
+            config={chartConfig}
           >
             <RadarChart data={capacitanceData}>
               <ChartTooltip
-                cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
+                cursor={false}
               />
-              <PolarAngleAxis dataKey="phase" className="text-lg" />
+              <PolarAngleAxis className="text-lg" dataKey="phase" />
               <PolarRadiusAxis
+                className="hidden"
                 domain={[
                   capacitanceData[0].initialValue * 0.9,
                   capacitanceData[0].alarmValue * 1,
                 ]}
-                className="hidden"
               />
               <PolarGrid />
               <Radar
@@ -51,25 +65,25 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
               <Radar dataKey="initialValue" fill="var(--color-initialValue)" />
               <Radar
                 dataKey="alarmValue"
+                fill="none"
                 stroke="var(--color-alarmValue)"
                 strokeDasharray={4}
-                fill="none"
               />
             </RadarChart>
           </ChartContainer>
 
-          <div className="text-xs flex gap-4 -mt-8">
+          <div className="-mt-8 flex gap-4 text-xs">
             <div className="flex flex-col">
               <span className="text-lg">Fase A</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {capacitanceData[0].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {capacitanceData[0].alarmValue} pF
                 </span>
               </div>
@@ -77,15 +91,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase B</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {capacitanceData[1].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {capacitanceData[1].alarmValue} pF
                 </span>
               </div>
@@ -93,15 +107,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase C</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {capacitanceData[2].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {capacitanceData[2].alarmValue} pF
                 </span>
               </div>
@@ -111,21 +125,21 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
         <div className="grid justify-center">
           <span className="text-center">Tangente Delta</span>
           <ChartContainer
-            config={chartConfig}
             className="mx-auto aspect-square h-[350px]"
+            config={chartConfig}
           >
             <RadarChart data={tangentDeltaData}>
               <ChartTooltip
-                cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
+                cursor={false}
               />
-              <PolarAngleAxis dataKey="phase" className="text-lg" />
+              <PolarAngleAxis className="text-lg" dataKey="phase" />
               <PolarRadiusAxis
+                className="hidden"
                 domain={[
                   tangentDeltaData[0].initialValue * 0.5,
                   tangentDeltaData[0].alarmValue * 1,
                 ]}
-                className="hidden"
               />
               <PolarGrid />
               <Radar
@@ -136,24 +150,24 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
               <Radar dataKey="initialValue" fill="var(--color-initialValue)" />
               <Radar
                 dataKey="alarmValue"
+                fill="none"
                 stroke="var(--color-alarmValue)"
                 strokeDasharray={4}
-                fill="none"
               />
             </RadarChart>
           </ChartContainer>
-          <div className="text-xs flex gap-4 -mt-8">
+          <div className="-mt-8 flex gap-4 text-xs">
             <div className="flex flex-col">
               <span className="text-lg">Fase A</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {tangentDeltaData[0].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {tangentDeltaData[0].alarmValue} %
                 </span>
               </div>
@@ -161,15 +175,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase B</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {tangentDeltaData[1].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {tangentDeltaData[1].alarmValue} %
                 </span>
               </div>
@@ -177,15 +191,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase C</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {tangentDeltaData[2].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg">
+                <span className="text-lg text-muted-foreground">
                   {tangentDeltaData[2].alarmValue} %
                 </span>
               </div>
@@ -195,44 +209,44 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
         <div className="grid justify-center">
           <span className="text-center">Corrente de Fuga</span>
           <ChartContainer
-            config={chartConfig}
             className="mx-auto aspect-square h-[350px]"
+            config={chartConfig}
           >
             <RadarChart data={leakageCurrentData}>
               <ChartTooltip
-                cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
+                cursor={false}
               />
-              <PolarAngleAxis dataKey="phase" className="text-lg" />
+              <PolarAngleAxis className="text-lg" dataKey="phase" />
               <PolarRadiusAxis
+                className="hidden"
                 domain={[
                   leakageCurrentData[0].currentValue * 0.6,
                   leakageCurrentData[0].alarmValue * 1,
                 ]}
-                className="hidden"
               />
               <PolarGrid />
               <Radar dataKey="currentValue" fill="var(--color-currentValue)" />
               <Radar
                 dataKey="alarmValue"
+                fill="none"
                 stroke="var(--color-alarmValue)"
                 strokeDasharray={4}
-                fill="none"
               />
             </RadarChart>
           </ChartContainer>
-          <div className="text-xs flex gap-4 -mt-8">
+          <div className="-mt-8 flex gap-4 text-xs">
             <div className="flex flex-col">
               <span className="text-lg">Fase A</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {leakageCurrentData[0].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg text-nowrap">
+                <span className="text-nowrap text-lg text-muted-foreground">
                   {leakageCurrentData[0].alarmValue} mA
                 </span>
               </div>
@@ -240,15 +254,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase B</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {leakageCurrentData[0].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg text-nowrap">
+                <span className="text-nowrap text-lg text-muted-foreground">
                   {leakageCurrentData[0].alarmValue} mA
                 </span>
               </div>
@@ -256,15 +270,15 @@ export function BmCard({capacitanceData, tangentDeltaData, leakageCurrentData}: 
             <Separator orientation="vertical" />
             <div className="flex flex-col">
               <span className="text-lg">Fase C</span>
-              <div className="flex gap-1 items-baseline">
-                <span className="text-2xl font-semibold">
+              <div className="flex items-baseline gap-1">
+                <span className="font-semibold text-2xl">
                   {leakageCurrentData[1].currentValue}
                 </span>
                 <Separator
+                  className="rotate-24 bg-muted-foreground data-[orientation=vertical]:h-2"
                   orientation="vertical"
-                  className="data-[orientation=vertical]:h-2 rotate-24 bg-muted-foreground"
                 />
-                <span className="text-muted-foreground text-lg text-nowrap">
+                <span className="text-nowrap text-lg text-muted-foreground">
                   {leakageCurrentData[1].alarmValue} mA
                 </span>
               </div>
