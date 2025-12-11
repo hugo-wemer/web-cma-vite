@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/correctness/useImageSize: <explanation> */
 
-import { Volume2, VolumeX } from "lucide-react"
+import { SirenIcon, Volume2, VolumeX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useAlarmedSensors } from "@/http/use-alarmed-sensors"
 import Bladder from "/transformer/bladder.png"
@@ -72,8 +72,19 @@ export function TransformerContainer({
   const isOltcAlarmed = alarmedSensors?.some((sensor) => sensor === "IDM")
 
   return (
-    <div>
-      <div className="flex h-screen flex-1 flex-col items-center justify-center bg-[url(/bg.png)] bg-center bg-no-repeat">
+    <div className="">
+      <div className="over flex h-[calc(100vh-50px)] flex-1 flex-col items-center justify-center bg-[url(/bg.png)] bg-center bg-no-repeat">
+        {alarmedSensors && alarmedSensors.length > 0 && (
+          <div className="absolute top-16 left-8 space-y-1 text-destructive">
+            <p>IEDs alarmados</p>
+            {alarmedSensors?.map((sensor) => (
+              <div className="flex items-center gap-1 font-bold" key={sensor}>
+                <SirenIcon className="pb-1" />
+                <p>{sensor}</p>
+              </div>
+            ))}
+          </div>
+        )}
         <img
           alt="transformer"
           className="relative h-auto w-2/5"
@@ -112,7 +123,7 @@ export function TransformerContainer({
       </div>
 
       <Button
-        className="fixed right-4 bottom-4"
+        className="fixed right-4 bottom-4 opacity-25"
         onClick={() => setSoundEnabled((prev) => !prev)}
         size="icon"
       >
