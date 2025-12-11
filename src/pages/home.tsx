@@ -1,7 +1,9 @@
 import {
+  ChartCandlestick,
   EthernetPort,
   FileTextIcon,
   MapIcon,
+  MedalIcon,
   ThermometerSnowflakeIcon,
 } from "lucide-react"
 import { CardLink } from "@/components/card-link"
@@ -36,6 +38,15 @@ export function Home() {
         <CardLink
           link="/onlineValues/cpfl-renovaveis-eols/albatroz-se/01t1"
           title="Variáveis online"
+        >
+          <ChartCandlestick className="size-8" />
+        </CardLink>
+        <CardLink link="/rankings" title="Rankings">
+          <MedalIcon className="size-8" />
+        </CardLink>
+        <CardLink
+          link="/transformer/cpfl-renovaveis-eols/aracati-se/04t1"
+          title="Transformador"
         >
           <ThermometerSnowflakeIcon className="size-8" />
         </CardLink>

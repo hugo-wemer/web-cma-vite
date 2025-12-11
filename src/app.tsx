@@ -4,7 +4,9 @@ import { AssetMap } from "./pages/asset-map"
 import { Cronology } from "./pages/cronology"
 import { Home } from "./pages/home"
 import { OnlineValues } from "./pages/online-values"
+import { Rankings } from "./pages/rankings"
 import { Status } from "./pages/status"
+import { Transformer } from "./pages/transformer"
 
 const queryClient = new QueryClient()
 
@@ -23,6 +25,11 @@ export function App() {
           <Route
             element={<OnlineValues />}
             path="/onlineValues/:companySlug/:installationSlug/:assetSlug"
+          />
+          <Route element={<Rankings />} path="/rankings/:companySlug?" />
+          <Route
+            element={<Transformer />}
+            path="/transformer/:companySlug/:installationSlug/:assetSlug"
           />
         </Routes>
       </BrowserRouter>

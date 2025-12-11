@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { Navigate, useParams } from "react-router-dom"
 import { AssetStatus } from "@/components/asset-status"
-import { Header } from "@/components/header"
+import { ChangeCompanyHeader } from "@/components/change-company-header"
 
 export type SensorType = {
   sensorOwnerId: string
@@ -60,7 +60,7 @@ export function Status() {
           <p>Carregando status...</p>
         </div>
       ) : (
-        <Header companySlug={companySlug} />
+        <ChangeCompanyHeader companySlug={companySlug} request="status" />
       )}
       <div className="m-4 flex flex-wrap gap-2">
         {status?.map((installation) => (

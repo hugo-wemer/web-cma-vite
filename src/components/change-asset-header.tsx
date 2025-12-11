@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { House, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useAssets } from "@/http/get-assets"
+import { useAssets } from "@/http/use-assets"
 import { useCompanies } from "@/http/use-companies"
 import { useInstallations } from "@/http/use-installations"
 import {
@@ -18,7 +18,7 @@ export type ChangeAssetHeaderParams = {
   companySlug: string
   installationSlug: string
   assetSlug: string
-  request: "cronology" | "onlineValues"
+  request: "cronology" | "onlineValues" | "transformer"
 }
 
 export function ChangeAssetHeader({
@@ -61,7 +61,7 @@ export function ChangeAssetHeader({
             setSelectedAsset("")
 
             queryClient.removeQueries({ queryKey: ["get-installations"] })
-            queryClient.removeQueries({ queryKey: ["get-assets"] })
+            queryClient.removeQueries({ queryKey: ["use-assets"] })
           }}
         >
           <SelectTrigger className="w-[200px]">
@@ -87,7 +87,7 @@ export function ChangeAssetHeader({
           onValueChange={(value) => {
             setSelectedInstallation(value)
             setSelectedAsset("")
-            queryClient.removeQueries({ queryKey: ["get-assets"] })
+            queryClient.removeQueries({ queryKey: ["use-assets"] })
           }}
         >
           <SelectTrigger className="w-[200px]">
