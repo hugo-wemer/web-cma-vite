@@ -1,8 +1,9 @@
 /** biome-ignore-all lint/correctness/useImageSize: <explanation> */
 
-import { SirenIcon, Volume2, VolumeX } from "lucide-react"
+import { Loader2, SirenIcon, Volume2, VolumeX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useAlarmedSensors } from "@/http/use-alarmed-sensors"
+import { useAssetData } from "@/http/use-asset-data"
 import Bladder from "/transformer/bladder.png"
 import Bushings from "/transformer/bushings.png"
 import Fans from "/transformer/fans.png"
@@ -29,7 +30,12 @@ export function TransformerContainer({
 
   const [soundEnabled, setSoundEnabled] = useState(false)
 
-  // Mantém a mesma instância de Audio durante todo o ciclo de vida do componente
+  const { data: assetData, isLoading: isFetchingAssetData } = useAssetData({
+    companySlug,
+    installationSlug,
+    assetSlug,
+  })
+
   const alarmSoundRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -73,6 +79,11 @@ export function TransformerContainer({
 
   return (
     <div className="">
+      {isFetchingAssetData && <Loader2 className="animate-spin"/>}
+      {assetData && 
+      <pre className="absolute top-16 right-8 text-muted-foreground">
+        {JSON.stringify(assetData, null, 2)}
+      </pre>}
       <div className="over flex h-[calc(100vh-50px)] flex-1 flex-col items-center justify-center bg-[url(/bg.png)] bg-center bg-no-repeat">
         {alarmedSensors && alarmedSensors.length > 0 && (
           <div className="absolute top-16 left-8 space-y-1 text-destructive">
@@ -87,7 +98,7 @@ export function TransformerContainer({
         )}
         <img
           alt="transformer"
-          className="relative h-auto w-2/5"
+          className="relative mr-64 h-auto w-2/5"
           src={Transformer}
         />
         <img

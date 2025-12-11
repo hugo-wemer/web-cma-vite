@@ -2,6 +2,7 @@ import { House } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Separator } from "@/components/ui/separator"
 import { WorldMap } from "@/components/ui/world-map"
+import TTLogo from '/tt-logo.svg'
 
 const monitoredPlaces = [
   {
@@ -2601,7 +2602,7 @@ const monitoredPlaces = [
 
 export function AssetMap() {
   return (
-    <div className="w-full rounded bg-white dark:bg-black">
+    <div className="w-full rounded bg-white dark:bg-black overflow-hidden h-screen">
       <header className="flex h-12 shrink-0 items-center justify-between border-b px-4 py-2">
         <div className="flex items-center gap-2">
           <Link to="/">
@@ -2614,6 +2615,9 @@ export function AssetMap() {
         </div>
       </header>
       <WorldMap dots={monitoredPlaces} lineColor="#008242" />
+      <div className="absolute bottom-0 opacity-70">
+        <img src={TTLogo} className=""/>
+      </div>
     </div>
   )
 }
