@@ -18,12 +18,14 @@ export type ChangeAssetHeaderParams = {
   companySlug: string
   installationSlug: string
   assetSlug: string
+  request: "cronology" | "onlineValues"
 }
 
 export function ChangeAssetHeader({
   companySlug,
   installationSlug,
   assetSlug,
+  request,
 }: ChangeAssetHeaderParams) {
   const navigate = useNavigate()
   const [selectedCompany, setSelectedCompany] = useState(companySlug)
@@ -113,7 +115,7 @@ export function ChangeAssetHeader({
           onValueChange={(value) => {
             setSelectedAsset(value)
             navigate(
-              `/onlineValues/${selectedCompany}/${selectedInstallation}/${value}`
+              `/${request}/${selectedCompany}/${selectedInstallation}/${value}`
             )
           }}
           value={selectedAsset}

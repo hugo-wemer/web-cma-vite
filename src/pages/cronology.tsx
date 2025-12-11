@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom"
+import { ChangeAssetHeader } from "@/components/change-asset-header"
 import { Comments } from "@/components/comments"
 import { CreateCommentForm } from "@/components/create-comment-form"
-import { CronologyHeader } from "@/components/cronology-header"
 
 type CronologyParams = {
   companySlug: string
@@ -17,8 +17,13 @@ export function Cronology() {
   }
 
   return (
-    <div className="">
-      <CronologyHeader />
+    <div className="m-2">
+      <ChangeAssetHeader
+        assetSlug={assetSlug}
+        companySlug={companySlug}
+        installationSlug={installationSlug}
+        request="cronology"
+      />
       <div className="mx-12 my-4 flex gap-8">
         <div className="w-full space-y-6">
           <div className="flex justify-between">

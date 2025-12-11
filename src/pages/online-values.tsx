@@ -21,6 +21,7 @@ export function OnlineValues() {
         assetSlug={assetSlug}
         companySlug={companySlug}
         installationSlug={installationSlug}
+        request="onlineValues"
       />
       <OnlineValuesContainer
         assetSlug={assetSlug}
