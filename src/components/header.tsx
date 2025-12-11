@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
 import { House, Loader2 } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
+import { useCompanies } from "@/http/use-companies"
 import { Legend } from "./legend"
 import {
   Select,
@@ -11,21 +11,8 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 
-type GetCompanyApiResponse = Array<{
-  id: string
-  companyName: string
-  companySlug: string
-}>
-
 export function Header({ companySlug }: { companySlug: string }) {
-  const { data: companies, isLoading } = useQuery({
-    queryKey: ["get-companies"],
-    queryFn: async () => {
-      const response = await fetch("http://192.168.3.130:3333/companies")
-      const result: GetCompanyApiResponse = await response.json()
-      return result
-    },
-  })
+  const { data: companies, isLoading } = useCompanies()
   const navigate = useNavigate()
 
   return (

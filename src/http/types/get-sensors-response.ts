@@ -1,8 +1,8 @@
 export type GetSensorsResponse = {
-    id: string,
-    sensorName: string,
-    sensorSlug: string,
-    sensorShowName: string
+  id: string
+  sensorName: string
+  sensorSlug: string
+  sensorShowName: string
 }[]
 
 export type SensorsRequestParams = {
