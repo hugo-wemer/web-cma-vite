@@ -6,10 +6,12 @@ import { Card, CardContent, CardTitle } from "./ui/card"
 
 export function AssetStatus({
   asset,
-  installation,
+  companySlug,
+  installationSlug,
 }: {
   asset: AssetType
-  installation: string
+  companySlug: string
+  installationSlug: string
 }) {
   const [worstStatus, setWorstStatus] = useState<sensorStatusProps>("NONE")
 
@@ -48,8 +50,9 @@ export function AssetStatus({
             {asset.sensors.map((sensor) => (
               <div key={sensor.sensorOwnerId}>
                 <Sensor
-                  asset={asset.assetName}
-                  installation={installation}
+                  assetSlug={asset.assetSlug}
+                  companySlug={companySlug}
+                  installationSlug={installationSlug}
                   sensor={sensor}
                 />
               </div>

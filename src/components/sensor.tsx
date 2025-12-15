@@ -5,8 +5,9 @@ import {
   WifiSlashIcon,
 } from "@phosphor-icons/react"
 import { useState } from "react"
-import type { SensorType } from "@/pages/status"
-import { Dialog, DialogTrigger } from "./ui/dialog"
+import type { SensorProps } from "@/http/types/get-status-request"
+import { RecognizeAlarmModal } from "./recognize-alarm-modal"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 
 const wifiBaseProps = {
   className: "size-3 shrink-0",
@@ -43,7 +44,7 @@ function getStatusIcon(status: string) {
   }
 }
 
-function getSensorTextColor(sensor: SensorType) {
+function getSensorTextColor(sensor: SensorProps) {
   const { sigmaAlarm, sigmaRecognized, internallyRecognized } = sensor
 
   // Com alarme
@@ -63,12 +64,14 @@ function getSensorTextColor(sensor: SensorType) {
 
 export function Sensor({
   sensor,
-  // asset,
-  // installation,
+  companySlug,
+  installationSlug,
+  assetSlug,
 }: {
-  sensor: SensorType
-  asset: string | null
-  installation: string | null
+  sensor: SensorProps
+  companySlug: string
+  installationSlug: string
+  assetSlug: string
 }) {
   const icon = getStatusIcon(sensor.sensorCommunicationStatus)
   const textColor = getSensorTextColor(sensor)
@@ -78,7 +81,7 @@ export function Sensor({
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger onClick={() => setIsOpen(true)}>
+      <DialogTrigger disabled={!shouldBlink} onClick={() => setIsOpen(true)}>
         <div className="flex shrink-0 cursor-pointer items-center gap-2 rounded hover:bg-muted-foreground/10">
           {icon}
 
@@ -91,6 +94,16 @@ export function Sensor({
           </p>
         </div>
       </DialogTrigger>
+      <DialogContent className="">
+        <RecognizeAlarmModal
+          assetSlug={assetSlug}
+          companySlug={companySlug}
+          installationSlug={installationSlug}
+          sensorOwnerId={sensor.sensorOwnerId}
+          sensorSlug={sensor.sensorShowName}
+          setIsOpen={setIsOpen}
+        />
+      </DialogContent>
     </Dialog>
   )
 }

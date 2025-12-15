@@ -1,8 +1,10 @@
+/** biome-ignore-all lint/correctness/useImageSize: <explanation> */
+/** biome-ignore-all lint/a11y/useAltText: <explanation> */
 import { House } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Separator } from "@/components/ui/separator"
 import { WorldMap } from "@/components/ui/world-map"
-import TTLogo from '/tt-logo.svg'
+import TTLogo from "/tt-logo.svg"
 
 const monitoredPlaces = [
   {
@@ -2547,8 +2549,8 @@ const monitoredPlaces = [
     end: { lat: -23.116, lng: -46.554 },
   },
   {
-    start: { lat: 28.9369, lng: -99.0821, label: 'TX' },
-    end: { lat: -23.116, lng: -46.554, label: 'Atibaia' },
+    start: { lat: 28.9369, lng: -99.0821, label: "TX" },
+    end: { lat: -23.116, lng: -46.554, label: "Atibaia" },
   },
   {
     start: { lat: 40.9587, lng: -104.0001 },
@@ -2602,7 +2604,7 @@ const monitoredPlaces = [
 
 export function AssetMap() {
   return (
-    <div className="w-full rounded bg-white dark:bg-black overflow-hidden h-screen">
+    <div className="h-screen w-full overflow-hidden rounded bg-white dark:bg-black">
       <header className="flex h-12 shrink-0 items-center justify-between border-b px-4 py-2">
         <div className="flex items-center gap-2">
           <Link to="/">
@@ -2616,7 +2618,7 @@ export function AssetMap() {
       </header>
       <WorldMap dots={monitoredPlaces} lineColor="#008242" />
       <div className="absolute bottom-0 opacity-70">
-        <img src={TTLogo} className=""/>
+        <img className="" src={TTLogo} />
       </div>
     </div>
   )
