@@ -2547,8 +2547,8 @@ const monitoredPlaces = [
     end: { lat: -23.116, lng: -46.554 },
   },
   {
-    start: { lat: 28.9369, lng: -99.0821 },
-    end: { lat: -23.116, lng: -46.554 },
+    start: { lat: 28.9369, lng: -99.0821, label: 'TX' },
+    end: { lat: -23.116, lng: -46.554, label: 'Atibaia' },
   },
   {
     start: { lat: 40.9587, lng: -104.0001 },

@@ -79,11 +79,12 @@ export function TransformerContainer({
 
   return (
     <div className="">
-      {isFetchingAssetData && <Loader2 className="animate-spin"/>}
-      {assetData && 
-      <pre className="absolute top-16 right-8 text-muted-foreground">
-        {JSON.stringify(assetData, null, 2)}
-      </pre>}
+      {isFetchingAssetData && <Loader2 className="animate-spin" />}
+      {assetData && (
+        <pre className="absolute top-16 right-8 text-muted-foreground">
+          {JSON.stringify(assetData, null, 2)}
+        </pre>
+      )}
       <div className="over flex h-[calc(100vh-50px)] flex-1 flex-col items-center justify-center bg-[url(/bg.png)] bg-center bg-no-repeat">
         {alarmedSensors && alarmedSensors.length > 0 && (
           <div className="absolute top-16 left-8 space-y-1 text-destructive">
@@ -98,7 +99,7 @@ export function TransformerContainer({
         )}
         <img
           alt="transformer"
-          className="relative mr-64 h-auto w-2/5"
+          className="relative h-auto w-2/5"
           src={Transformer}
         />
         <img
@@ -118,7 +119,7 @@ export function TransformerContainer({
         />
         <img
           alt="oil"
-          className={`absolute h-auto w-2/5 ${!isGmpAlarmed && "hidden"}`}
+          className={`absolute h-auto w-2/5 ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
           src={Oil}
         />
         <img
