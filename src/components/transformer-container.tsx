@@ -104,12 +104,12 @@ export function TransformerContainer({
         />
         <img
           alt="bushings"
-          className={`absolute h-auto w-2/5 ${!isBmAlarmed && "hidden"}`}
+          className={`absolute h-auto w-2/5 animate-blink ${!isBmAlarmed && "hidden"}`}
           src={Bushings}
         />
         <img
           alt="bladder"
-          className={`absolute h-auto w-2/5 ${!isMbrAlarmed && "hidden"}`}
+          className={`absolute h-auto w-2/5 animate-blink ${!isMbrAlarmed && "hidden"}`}
           src={Bladder}
         />
         <img
@@ -119,7 +119,7 @@ export function TransformerContainer({
         />
         <img
           alt="oil"
-          className={`absolute h-auto w-2/5 ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
+          className={`absolute h-auto w-2/5 animate-blink ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
           src={Oil}
         />
         <img
@@ -129,7 +129,7 @@ export function TransformerContainer({
         />
         <img
           alt="oltc"
-          className={`absolute h-auto w-2/5 ${!isOltcAlarmed && "hidden"}`}
+          className={`absolute h-auto w-2/5 animate-blink ${!isOltcAlarmed && "hidden"}`}
           src={Oltc}
         />
       </div>
