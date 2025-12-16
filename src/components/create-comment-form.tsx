@@ -1,8 +1,27 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarClockIcon, Loader2, Plus } from "lucide-react"
+import { Document } from "@tiptap/extension-document"
+import { Highlight } from "@tiptap/extension-highlight"
+import { Placeholder } from "@tiptap/extension-placeholder"
+import { Typography } from "@tiptap/extension-typography"
+import { EditorContent, useEditor } from "@tiptap/react"
+import { StarterKit } from "@tiptap/starter-kit"
+import {
+  Bold,
+  CalendarClockIcon,
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  Italic,
+  List,
+  Loader2,
+  Plus,
+  Underline,
+} from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import type { CronologyRequestParams } from "@/http/types/get-comments-response"
 import { useCreateComment } from "@/http/use-create-comment"
 import { Button } from "./ui/button"
@@ -14,7 +33,6 @@ import {
   DialogTrigger,
 } from "./ui/dialog"
 import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
 
 const newCommentFormSchema = z.object({
   author: z.string().min(1, { message: "O campo Autor é obrigatório" }),
@@ -39,8 +57,37 @@ export function CreateCommentForm({
     handleSubmit,
     formState: { isSubmitting, errors, isSubmitSuccessful },
     reset,
+    setValue,
   } = useForm({
     resolver: zodResolver(newCommentFormSchema),
+  })
+
+  const editor = useEditor({
+    extensions: [
+      Document.extend({
+        content: "block*",
+      }),
+      StarterKit.configure({
+        document: false,
+      }),
+      Highlight,
+      Typography,
+      Placeholder.configure({
+        placeholder: "Digite seu comentário...",
+        emptyEditorClass:
+          "before:content-[attr(data-placeholder)] before:text-muted-foreground before:h-0 before:float-left before:pointer-events-none",
+      }),
+    ],
+    autofocus: "end",
+    editorProps: {
+      attributes: {
+        class:
+          "focus:outline-none prose prose-invert prose-headings-mt-0  prose-sm prose-headings-text-lg text-foreground",
+      },
+    },
+    onUpdate: ({ editor: tiptapEditor }) => {
+      setValue("comment", tiptapEditor.getHTML())
+    },
   })
 
   async function handleCreateNewComment({
@@ -53,6 +100,9 @@ export function CreateCommentForm({
       params: { companySlug, installationSlug, assetSlug },
     })
     reset()
+    if (editor) {
+      editor.commands.clearContent()
+    }
   }
 
   useEffect(() => {
@@ -67,7 +117,7 @@ export function CreateCommentForm({
         <Plus />
         <span>Adicionar comentário ao ativo</span>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle>Adicionar um comentário ao ativo</DialogTitle>
         </DialogHeader>
@@ -107,18 +157,102 @@ export function CreateCommentForm({
               </span>
             )}
           </div>
-          <div>
-            <Textarea
-              aria-invalid={!!errors.comment}
-              className="h-48"
-              placeholder="Comentário"
-              {...register("comment")}
-            />
-            {errors.comment && (
-              <span className="text-destructive text-xs">
-                {errors.comment.message}
-              </span>
-            )}
+          <div className="space-x-1 space-y-1">
+            <Button
+              aria-label="Toggle heading"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 1 }).run()
+              }
+              size="icon-sm"
+              type="button"
+              value="bold"
+              variant={"outline"}
+            >
+              <Heading1 className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle heading"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 2 }).run()
+              }
+              size="icon-sm"
+              type="button"
+              value="bold"
+              variant={"outline"}
+            >
+              <Heading2 className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle heading"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 3 }).run()
+              }
+              size="icon-sm"
+              type="button"
+              value="bold"
+              variant={"outline"}
+            >
+              <Heading3 className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle bold"
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              size="icon-sm"
+              type="button"
+              value="bold"
+              variant={"outline"}
+            >
+              <Bold className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle italic"
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              size="icon-sm"
+              type="button"
+              value="italic"
+              variant={"outline"}
+            >
+              <Italic className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle strikethrough"
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              size={"icon-sm"}
+              type="button"
+              value="strikethrough"
+              variant={"outline"}
+            >
+              <Underline className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle strikethrough"
+              onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+              size={"icon-sm"}
+              type="button"
+              value="strikethrough"
+              variant={"outline"}
+            >
+              <Code className="h-4 w-4" />
+            </Button>
+            <Button
+              aria-label="Toggle strikethrough"
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              size={"icon-sm"}
+              type="button"
+              value="strikethrough"
+              variant={"outline"}
+            >
+              <List className="h-4 w-4" />
+            </Button>
+
+            <ScrollArea className="h-72 w-[54ch] rounded-md border border-input bg-card px-3 py-2">
+              <EditorContent className="" editor={editor} />
+              {errors.comment && (
+                <span className="text-destructive text-xs">
+                  {errors.comment.message}
+                </span>
+              )}
+            </ScrollArea>
           </div>
           <Button className="w-full" disabled={isSubmitting}>
             {!isSubmitting && <span>Salvar</span>}

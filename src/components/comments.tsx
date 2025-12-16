@@ -3,6 +3,7 @@ import { ptBR } from "date-fns/locale"
 import { Loader2 } from "lucide-react"
 import type { CronologyRequestParams } from "@/http/types/get-comments-response"
 import { useComments } from "@/http/use-comment"
+import { ReadOnlyHtml } from "./read-only-html"
 import { Badge } from "./ui/badge"
 
 export function Comments({
@@ -35,7 +36,9 @@ export function Comments({
                 <div className="space-y-2.5" key={comment.id}>
                   <div className="space-y-1 rounded-xl bg-zinc-900 px-4 py-2.5 shadow-shape">
                     <div className="flex items-center gap-3">
-                      <span className="text-zinc-100">{comment.comment}</span>
+                      <ReadOnlyHtml html={comment.comment} />
+
+                      {/* <span className="text-zinc-100">{comment.comment}</span> */}
                       <span className="ml-auto text-sm text-zinc-400">
                         {format(comment.commentedAt, "HH:mm")}h
                       </span>
