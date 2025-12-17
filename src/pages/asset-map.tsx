@@ -4,7 +4,7 @@ import { House } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Separator } from "@/components/ui/separator"
 import { WorldMap } from "@/components/ui/world-map"
-import TTLogo from "/tt-logo.svg"
+import TTLogo from "/TT.png"
 
 const monitoredPlaces = [
   {

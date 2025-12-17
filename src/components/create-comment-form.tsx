@@ -13,6 +13,7 @@ import {
   Heading2,
   Heading3,
   Italic,
+  Link,
   List,
   Loader2,
   Plus,
@@ -215,35 +216,36 @@ export function CreateCommentForm({
               <Italic className="h-4 w-4" />
             </Button>
             <Button
-              aria-label="Toggle strikethrough"
+              aria-label="Toggle underline"
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               size={"icon-sm"}
               type="button"
-              value="strikethrough"
+              value="underline"
               variant={"outline"}
             >
               <Underline className="h-4 w-4" />
             </Button>
             <Button
-              aria-label="Toggle strikethrough"
+              aria-label="Toggle code"
               onClick={() => editor.chain().focus().toggleCodeBlock().run()}
               size={"icon-sm"}
               type="button"
-              value="strikethrough"
+              value="code"
               variant={"outline"}
             >
               <Code className="h-4 w-4" />
             </Button>
             <Button
-              aria-label="Toggle strikethrough"
+              aria-label="Toggle bullet-list"
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               size={"icon-sm"}
               type="button"
-              value="strikethrough"
+              value="bullet-list"
               variant={"outline"}
             >
               <List className="h-4 w-4" />
             </Button>
+
 
             <ScrollArea className="h-72 w-[54ch] rounded-md border border-input bg-card px-3 py-2">
               <EditorContent className="" editor={editor} />
