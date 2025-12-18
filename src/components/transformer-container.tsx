@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/correctness/useImageSize: <explanation> */
 
-import { Volume2, VolumeX } from "lucide-react"
+import { Loader2, Volume2, VolumeX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useAlarmedSensors } from "@/http/use-alarmed-sensors"
 import { useOnlineValues } from "@/http/use-online-values"
@@ -125,6 +125,7 @@ export function TransformerContainer({
           </div>
         </div>
         <div className="flex h-fit flex-wrap gap-2 py-2">
+          {isFetchingOnlineData && <Loader2 className="animate-spin" />}
           {onlineData
             ?.sort((a, b) => b.variables.length - a.variables.length)
             .map((sensor) => (
