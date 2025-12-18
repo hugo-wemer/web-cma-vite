@@ -103,7 +103,10 @@ export function OnlineValuesContainer({
         </div>
         <div className="flex">
           {isLoadingGmp && <Loader2 className="animate-spin" />}
-          {hasGmp && gmpOnlineValues ? (
+          {hasGmp &&
+          gmpOnlineValues &&
+          gmpOnlineValues.h2Data.length > 0 &&
+          gmpOnlineValues.moistureData.length > 0  ? 
             <GmpCard
               h2Data={gmpOnlineValues.h2Data}
               moistureData={gmpOnlineValues.moistureData}
