@@ -106,7 +106,7 @@ export function OnlineValuesContainer({
           {hasGmp &&
           gmpOnlineValues &&
           gmpOnlineValues.h2Data.length > 0 &&
-          gmpOnlineValues.moistureData.length > 0  ? 
+          gmpOnlineValues.moistureData.length > 0 ? (
             <GmpCard
               h2Data={gmpOnlineValues.h2Data}
               moistureData={gmpOnlineValues.moistureData}
