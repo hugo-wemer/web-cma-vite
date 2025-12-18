@@ -130,7 +130,7 @@ export function TransformerContainer({
             ?.sort((a, b) => b.variables.length - a.variables.length)
             .map((sensor) => (
               <div
-                className={`${alarmedSensors?.some((alarmedSensor) => alarmedSensor === sensor.sensorShowName) && "animate-red-border-blink border"} flex flex-col gap-1 rounded-sm bg-card/50 p-2 shadow-shape`}
+                className={`${alarmedSensors?.some((alarmedSensor) => alarmedSensor === sensor.sensorShowName) && "animate-red-border-blink border"} flex flex-col gap-1 rounded-sm bg-card/50 p-4 shadow-shape`}
                 key={sensor.id}
               >
                 <span

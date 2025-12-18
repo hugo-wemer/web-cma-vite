@@ -35,7 +35,7 @@ export function AssetData({
               <div>{assetData.manufacturer}</div>
             </div>
           )}
-          {assetData?.year && (
+          {assetData?.year > 0 && (
             <div className="w-fit rounded-none bg-card/50 p-2 text-center first:rounded-l-md last:rounded-r-md">
               <div className="font-semibold text-muted-foreground">Ano</div>
               <div>{assetData.year}</div>
