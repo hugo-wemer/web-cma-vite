@@ -16,7 +16,7 @@ export function Transformer() {
   }
 
   return (
-    <div>
+    <div className="bg-[url(/bg.png)] bg-center bg-no-repeat">
       <ChangeAssetHeader
         assetSlug={assetSlug}
         companySlug={companySlug}

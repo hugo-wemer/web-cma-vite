@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { House, Loader2, Shuffle } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useAssetSync } from "@/http/use-asset-sync"
 import { useAssets } from "@/http/use-assets"
 import { useCompanies } from "@/http/use-companies"
 import { useInstallations } from "@/http/use-installations"
@@ -14,7 +15,6 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group"
-import { useAssetSync } from "@/http/use-asset-sync"
 
 export type ChangeAssetHeaderParams = {
   companySlug: string
@@ -45,21 +45,19 @@ export function ChangeAssetHeader({
   const queryClient = useQueryClient()
   const [autoMode, setAutoMode] = useState(false)
 
-
-  const {data: syncAsset} = useAssetSync({ autoMode })
-  
+  const { data: syncAsset } = useAssetSync({ autoMode })
 
   useEffect(() => {
-  if (autoMode && syncAsset?.assetSlug) {
-    setSelectedCompany(syncAsset.companySlug)
-    setSelectedInstallation(syncAsset.installationSlug)
-    setSelectedAsset(syncAsset.assetSlug)
+    if (autoMode && syncAsset?.assetSlug) {
+      setSelectedCompany(syncAsset.companySlug)
+      setSelectedInstallation(syncAsset.installationSlug)
+      setSelectedAsset(syncAsset.assetSlug)
 
-    navigate(
-      `/${request}/${syncAsset.companySlug}/${syncAsset.installationSlug}/${syncAsset.assetSlug}/`,
-    )
-  }
-}, [autoMode, syncAsset, request, navigate])
+      navigate(
+        `/${request}/${syncAsset.companySlug}/${syncAsset.installationSlug}/${syncAsset.assetSlug}/`
+      )
+    }
+  }, [autoMode, syncAsset, request, navigate])
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between border-b px-4 py-2">
@@ -73,7 +71,6 @@ export function ChangeAssetHeader({
         />
 
         <Select
-          value={selectedCompany}
           onValueChange={(value) => {
             setSelectedCompany(value)
             setSelectedInstallation("")
@@ -82,7 +79,9 @@ export function ChangeAssetHeader({
 
             queryClient.removeQueries({ queryKey: ["get-installations"] })
             queryClient.removeQueries({ queryKey: ["use-assets"] })
+            queryClient.removeQueries({ queryKey: ["get-asset-data"] })
           }}
+          value={selectedCompany}
         >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Selecione uma empresa" />
@@ -103,13 +102,14 @@ export function ChangeAssetHeader({
         />
 
         <Select
-          value={selectedInstallation}
           onValueChange={(value) => {
             setSelectedInstallation(value)
             setSelectedAsset("")
             setAutoMode(false)
             queryClient.removeQueries({ queryKey: ["use-assets"] })
+            queryClient.removeQueries({ queryKey: ["get-asset-data"] })
           }}
+          value={selectedInstallation}
         >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Selecione uma instalação" />
@@ -133,7 +133,6 @@ export function ChangeAssetHeader({
         />
 
         <Select
-        
           onValueChange={(value) => {
             setSelectedAsset(value)
             setAutoMode(false)
@@ -157,25 +156,25 @@ export function ChangeAssetHeader({
         </Select>
       </div>
 
-        <ToggleGroup 
-          type="single" 
-          variant="outline" 
-          spacing={2} size="sm"
-          value={autoMode ? "on" : ""}
-          onValueChange={(value) => {
-            setAutoMode(value === "on")
-          }}
-          >
-          <ToggleGroupItem
-            value="on"
-            aria-label="Toggle auto mode"
-            className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-green-500 data-[state=on]:*:[svg]:stroke-green-500"
-          >
-            <Shuffle />
-            Auto
-          </ToggleGroupItem>
-        </ToggleGroup>
-
+      <ToggleGroup
+        onValueChange={(value) => {
+          setAutoMode(value === "on")
+        }}
+        size="sm"
+        spacing={2}
+        type="single"
+        value={autoMode ? "on" : ""}
+        variant="outline"
+      >
+        <ToggleGroupItem
+          aria-label="Toggle auto mode"
+          className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-green-500 data-[state=on]:*:[svg]:stroke-green-500"
+          value="on"
+        >
+          <Shuffle />
+          Auto
+        </ToggleGroupItem>
+      </ToggleGroup>
     </header>
   )
 }

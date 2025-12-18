@@ -1,16 +1,16 @@
 /** biome-ignore-all lint/correctness/useImageSize: <explanation> */
 
-import { Loader2, SirenIcon, Volume2, VolumeX } from "lucide-react"
+import { Volume2, VolumeX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useAlarmedSensors } from "@/http/use-alarmed-sensors"
-import { useAssetData } from "@/http/use-asset-data"
+import { useOnlineValues } from "@/http/use-online-values"
 import Bladder from "/transformer/bladder.png"
 import Bushings from "/transformer/bushings.png"
 import Fans from "/transformer/fans.png"
 import Oil from "/transformer/oil.png"
 import Oltc from "/transformer/oltc.png"
-import Transformer from "/transformer/transformer.png"
 import Winding from "/transformer/winding.png"
+import { AssetData } from "./asset-data"
 import { Button } from "./ui/button"
 
 export function TransformerContainer({
@@ -29,12 +29,6 @@ export function TransformerContainer({
   })
 
   const [soundEnabled, setSoundEnabled] = useState(false)
-
-  const { data: assetData, isLoading: isFetchingAssetData } = useAssetData({
-    companySlug,
-    installationSlug,
-    assetSlug,
-  })
 
   const alarmSoundRef = useRef<HTMLAudioElement | null>(null)
 
@@ -77,63 +71,106 @@ export function TransformerContainer({
   const isGmpAlarmed = alarmedSensors?.some((sensor) => sensor === "GMP")
   const isOltcAlarmed = alarmedSensors?.some((sensor) => sensor === "IDM")
 
+  const { data: onlineData, isLoading: isFetchingOnlineData } = useOnlineValues(
+    { companySlug, installationSlug, assetSlug }
+  )
+
   return (
-    <div className="">
-      {isFetchingAssetData && <Loader2 className="animate-spin" />}
-      {assetData && (
-        <pre className="absolute top-16 right-8 text-muted-foreground">
-          {JSON.stringify(assetData, null, 2)}
-        </pre>
-      )}
-      <div className="over flex h-[calc(100vh-50px)] flex-1 flex-col items-center justify-center bg-[url(/bg.png)] bg-center bg-no-repeat">
-        {alarmedSensors && alarmedSensors.length > 0 && (
-          <div className="absolute top-16 left-8 space-y-1 text-destructive">
-            <p>IEDs alarmados</p>
-            {alarmedSensors?.map((sensor) => (
-              <div className="flex items-center gap-1 font-bold" key={sensor}>
-                <SirenIcon className="pb-1" />
-                <p>{sensor}</p>
-              </div>
-            ))}
-          </div>
-        )}
-        <img
-          alt="transformer"
-          className="relative h-auto w-2/5"
-          src={Transformer}
-        />
-        <img
-          alt="bushings"
-          className={`absolute h-auto w-2/5 animate-blink ${!isBmAlarmed && "hidden"}`}
-          src={Bushings}
-        />
-        <img
-          alt="bladder"
-          className={`absolute h-auto w-2/5 animate-blink ${!isMbrAlarmed && "hidden"}`}
-          src={Bladder}
-        />
-        <img
-          alt="fans"
-          className={`absolute h-auto w-2/5 ${"hidden"}`}
-          src={Fans}
-        />
-        <img
-          alt="oil"
-          className={`absolute h-auto w-2/5 animate-blink ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
-          src={Oil}
-        />
-        <img
-          alt="winding"
-          className={`absolute h-auto w-2/5 ${!isTmAlarmed && "hidden"}`}
-          src={Winding}
-        />
-        <img
-          alt="oltc"
-          className={`absolute h-auto w-2/5 animate-blink ${!isOltcAlarmed && "hidden"}`}
-          src={Oltc}
+    <div className="flex h-[calc(100vh-50px)] flex-col justify-between">
+      <div className="m-2 flex flex-col">
+        <AssetData
+          assetSlug={assetSlug}
+          companySlug={companySlug}
+          installationSlug={installationSlug}
         />
       </div>
-
+      <div className="mx-8 my-auto flex gap-8">
+        <div className="">
+          <div className="relative size-120 bg-[url(/transformer/transformer.png)] bg-center bg-cover bg-no-repeat">
+            <img
+              alt="oil"
+              className={`absolute size-120 animate-blink ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
+              src={Oil}
+            />
+            <img
+              alt="bushings"
+              className={`absolute size-120 animate-blink ${!isBmAlarmed && "hidden"}`}
+              src={Bushings}
+            />
+            <img
+              alt="bladder"
+              className={`absolute size-120 animate-blink ${!isMbrAlarmed && "hidden"}`}
+              src={Bladder}
+            />
+            <img
+              alt="fans"
+              className={`absolute size-120 ${"hidden"}`}
+              src={Fans}
+            />
+            <img
+              alt="oil"
+              className={`absolute size-120 animate-blink ${!(isGmpAlarmed || isTmAlarmed) && "hidden"}`}
+              src={Oil}
+            />
+            <img
+              alt="winding"
+              className={`absolute size-120 animate-blink ${!isTmAlarmed && "hidden"}`}
+              src={Winding}
+            />
+            <img
+              alt="oltc"
+              className={`absolute size-120 animate-blink ${!isOltcAlarmed && "hidden"}`}
+              src={Oltc}
+            />
+          </div>
+        </div>
+        <div className="flex h-fit flex-wrap gap-2 py-2">
+          {onlineData
+            ?.sort((a, b) => b.variables.length - a.variables.length)
+            .map((sensor) => (
+              <div
+                className={`${alarmedSensors?.some((alarmedSensor) => alarmedSensor === sensor.sensorShowName) && "animate-red-border-blink border"} flex flex-col gap-1 rounded-sm bg-card/50 p-2 shadow-shape`}
+                key={sensor.id}
+              >
+                <span
+                  className={`font-semibold ${alarmedSensors?.some((alarmedSensor) => alarmedSensor === sensor.sensorShowName) ? "text-destructive" : "text-muted-foreground"}`}
+                >
+                  {sensor.sensorShowName}
+                </span>
+                <div className="space-y-1">
+                  {sensor.variables
+                    .filter((variable) => variable.function === "measurement")
+                    .map((variable) => (
+                      <div
+                        className="flex h-5 justify-between gap-4"
+                        key={variable.variableName}
+                      >
+                        <span>
+                          {(() => {
+                            const cleaned = variable.variableName.replace(
+                              "Indicação de ",
+                              ""
+                            )
+                            return (
+                              cleaned.charAt(0).toUpperCase() + cleaned.slice(1)
+                            )
+                          })()}
+                        </span>
+                        <div className="space-x-1">
+                          <span className="font-bold">
+                            {variable.valueRecent}
+                          </span>
+                          <span className="text-muted-foreground">
+                            {variable.unit}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
       <Button
         className="fixed right-4 bottom-4 opacity-25"
         onClick={() => setSoundEnabled((prev) => !prev)}

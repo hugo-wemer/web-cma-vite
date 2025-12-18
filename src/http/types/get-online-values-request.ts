@@ -5,10 +5,18 @@ export type GetOnlineValuesParams = {
 }
 
 export type GetOnlineValuesResponse = Array<{
-  company: string
-  installation: string
-  asset: string
-  value: number
-  variableName: string
-  unit: string
+  id: string
+  sensorName: string
+  sensorShowName: string
+  variables: Array<{
+    valueMax: number
+    valueAverage: number
+    valueMin: number
+    valueRecent: number
+    variableName: string
+    unit: string
+    component: string
+    function: string
+    updatedAt: string
+  }>
 }>
