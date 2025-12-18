@@ -84,7 +84,7 @@ export function OnlineValuesContainer({
       <div className="flex flex-wrap gap-2">
         <div className="flex flex-1">
           {isLoadingTm && <Loader2 className="animate-spin" />}
-          {hasTm && tmOnlineValues ? (
+          {hasTm && tmOnlineValues && tmOnlineValues.loadData.length > 0 ? (
             <TmCard loadData={tmOnlineValues.loadData} />
           ) : (
             <div className="flex h-96 flex-1 flex-col items-center justify-center gap-4 rounded-lg border bg-card/30 p-4 shadow-shape">
@@ -124,26 +124,6 @@ export function OnlineValuesContainer({
           )}
         </div>
       </div>
-
-      {/* {isLoadingBm && <Loader2 className="animate-spin" />}
-      {hasBm && bmOnlineValues && (
-        <BmCard
-          capacitanceData={bmOnlineValues.capacitanceData}
-          leakageCurrentData={bmOnlineValues.leakageCurrentData}
-          tangentDeltaData={bmOnlineValues.tangentDeltaData}
-        />
-      )}
-
-      {isLoadingTm && <Loader2 className="animate-spin" />}
-      {hasTm && tmOnlineValues && <TmCard loadData={tmOnlineValues.loadData} />}
-
-      {isLoadingGmp && <Loader2 className="animate-spin" />}
-      {hasGmp && gmpOnlineValues && (
-        <GmpCard
-          h2Data={gmpOnlineValues.h2Data}
-          moistureData={gmpOnlineValues.moistureData}
-        />
-      )} */}
     </div>
   )
 }
